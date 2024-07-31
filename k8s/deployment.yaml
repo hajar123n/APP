@@ -16,7 +16,7 @@ spec:
         - name: app-back
           image: hajarnaityahia973/app-back:latest
           ports:
-            - containerPort: 8080
+            - containerPort: 8066
           env:
             - name: SPRING_DATASOURCE_URL
               value: "jdbc:mysql://db-service:3306/Cabinet?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC"
@@ -37,13 +37,13 @@ spec:
           livenessProbe:
             httpGet:
               path: /actuator/health
-              port: 8080
+              port: 8066
             initialDelaySeconds: 30
             periodSeconds: 10
           readinessProbe:
             httpGet:
               path: /actuator/health
-              port: 8080
+              port: 8066
 ---
 apiVersion: v1
 kind: Secret
