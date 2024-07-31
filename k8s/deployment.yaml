@@ -51,4 +51,4 @@ metadata:
   name: db-secret
 type: Opaque
 data:
-  password: 1234567890
+  password: MTIzNDU2Nzg5MA==
