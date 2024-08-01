@@ -23,7 +23,7 @@ services:
       MYSQL_ROOT_PASSWORD: ''
       MYSQL_DATABASE: Cabinet
       MYSQL_USER: root
-      MYSQL_PASSWORD: ''
+      MYSQL_PASSWORD: root
     ports:
       - "3306:3306"
     volumes:
