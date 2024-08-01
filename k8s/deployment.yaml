@@ -1,12 +1,12 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: Deployment # Kubernetes resource kind we are creating
 metadata:
   name: app-back
 spec:
-  replicas: 3
   selector:
     matchLabels:
       app: app-back
+  replicas: 3 # Number of replicas that will be created for this deployment
   template:
     metadata:
       labels:
@@ -14,41 +14,23 @@ spec:
     spec:
       containers:
         - name: app-back
-          image: hajarnaityahia973/app-back:latest
+          image: hajarnaityahia973/app-back:latest # Image that will be used to containers in the cluster
+          imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 8066
-          env:
-            - name: SPRING_DATASOURCE_URL
-              value: "jdbc:mysql://db-service:3306/Cabinet?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC"
-            - name: SPRING_DATASOURCE_USERNAME
-              value: "root"
-            - name: SPRING_DATASOURCE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: db-secret
-                  key: password
-          resources:
-            requests:
-              memory: "512Mi"
-              cpu: "500m"
-            limits:
-              memory: "1Gi"
-              cpu: "1"
-          livenessProbe:
-            httpGet:
-              path: /actuator/health
-              port: 8066
-            initialDelaySeconds: 30
-            periodSeconds: 10
-          readinessProbe:
-            httpGet:
-              path: /actuator/health
-              port: 8066
+            - containerPort: 8066 # The port that the container is running on in the cluster
+
+
 ---
-apiVersion: v1
-kind: Secret
-metadata:
-  name: db-secret
-type: Opaque
-data:
-  password: MTIzNDU2Nzg5MA==
+
+apiVersion: v1 # Kubernetes API version
+kind: Service # Kubernetes resource kind we are creating
+metadata: # Metadata of the resource kind we are creating
+  name: app-back-service
+spec:
+  selector:
+    app: app-back
+  ports:
+    - protocol: "TCP"
+      port: 8066 # The port that the service is running on in the cluster
+      targetPort: 8066 # The port exposed by the service
+  type: LoadBalancer # type of the service.
