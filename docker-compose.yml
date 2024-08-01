@@ -2,8 +2,8 @@ version: '3.8'
 
 services:
   app:
-    image: mon-app-springboot
-    container_name: springboot-app
+    image:  hajarnaityahia973/app-back:latest
+    container_name: app-back
     ports:
       - "8066:8066"
     depends_on:
